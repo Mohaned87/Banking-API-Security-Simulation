@@ -10,7 +10,7 @@ It includes two parts:
 - Simulated **brute-force attacks** using Hydra.
 - Documented results with screenshots and security recommendations.
 
-📄 [Full Report (PDF)](./https://github.com/Mohaned87/Banking-API-Security-Simulation/blob/main/Part1-Hydra-DotNetAPI/Part1-Hydra-DotNetAPI.pdf)
+📄 [Full Report (PDF)](./Part1-Hydra-DotNetAPI/Part1-Hydra-DotNetAPI.pdf)
 
 ---
 
@@ -20,7 +20,7 @@ It includes two parts:
 - Captured tokens, attempts, and execution time.
 - Verified API protection against basic SQL injection payloads.
 
-📄 [Full Report (PDF)](./https://github.com/Mohaned87/Banking-API-Security-Simulation/blob/main/Part2-PythonTool/Part2-PythonTool.pdf)
+📄 [Full Report (PDF)](./Part2-PythonTool/Part2-PythonTool.pdf)
 
 ---
 
